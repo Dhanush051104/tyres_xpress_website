@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Light Mode Palette: Bright clean automotive aesthetic */
+  --bg-primary: #ffffff;
+  --bg-surface: #f8fafc;
+  --bg-surface-elevated: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --accent-brand: #dc2626; /* TyresXpress Red */
+  --accent-brand-hover: #b91c1c;
+  --accent-brand-glow: rgba(220, 38, 38, 0.15);
+  --accent-badge: #fee2e2;
+  --accent-badge-text: #991b1b;
+}
+
+.dark {
+  /* Dark Mode Palette: Obsidian Black + Mandarin Orange */
+  --bg-primary: #0b0b0d; /* Obsidian Black */
+  --bg-surface: #151519; /* Elevated surfaces */
+  --bg-surface-elevated: #202024; /* Secondary surfaces */
+  --text-primary: #f5f5f5;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --border-subtle: #303036;
+  --border-strong: #3f3f46;
+  --accent-brand: #f28c28; /* Mandarin Orange */
+  --accent-brand-hover: #ff9f43; /* Accent highlight */
+  --accent-brand-glow: rgba(242, 140, 40, 0.2);
+  --accent-badge: #2c1a0e;
+  --accent-badge-text: #ff9f43;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Subtle custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-brand);
+}
