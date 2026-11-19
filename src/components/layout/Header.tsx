@@ -3,10 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence, LayoutGroup, useReducedMotion } from 'motion/react';
 import { TyresXpressLogo } from '@/components/common/TyresXpressLogo';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
-import { Phone, MapPin, Menu, X, Clock, ChevronRight } from 'lucide-react';
+import { Phone, MapPin, Menu, X, Mail, ChevronRight } from 'lucide-react';
 import { BUSINESS_INFO, SHOWROOMS } from '@/data/business';
+import { trackPhoneClick } from '@/lib/analytics';
 
 const NAV_LINKS = [
   { name: 'Home', href: '/' },
@@ -21,12 +23,28 @@ export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
+  // Coordinated scroll tracking with hysteresis to prevent threshold flicker
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 15);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const y = window.scrollY;
+          if (y > 52) {
+            setScrolled(true);
+          } else if (y < 16) {
+            setScrolled(false);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -36,173 +54,266 @@ export function Header() {
   }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 w-full">
-      {/* Top Utility Bar */}
-      <div className="bg-neutral-900 text-neutral-300 text-xs py-1.5 px-4 sm:px-6 border-b border-neutral-800 transition-colors">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4 sm:gap-6 overflow-x-auto no-scrollbar py-0.5 text-[11px] sm:text-xs">
-            <span className="inline-flex items-center gap-1.5 text-neutral-200 font-medium">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              Est. {BUSINESS_INFO.establishedYear} • 3 Showrooms in Bengaluru
-            </span>
-            <span className="hidden md:inline-flex items-center gap-1.5 text-neutral-400">
-              <Clock className="w-3.5 h-3.5 text-neutral-400" />
-              Open Daily: 9:00 AM – 8:00 PM
-            </span>
-          </div>
-
-          <div className="flex items-center gap-3 sm:gap-5 flex-shrink-0 text-[11px] sm:text-xs">
-            <a
-              href={`mailto:${BUSINESS_INFO.email}`}
-              className="hidden lg:inline hover:text-white transition-colors"
-            >
-              {BUSINESS_INFO.email}
-            </a>
-            <a
-              href={`tel:${BUSINESS_INFO.centralHotline}`}
-              className="inline-flex items-center gap-1.5 font-semibold text-white hover:text-red-400 dark:hover:text-[#F28C28] transition-colors"
-            >
-              <Phone className="w-3 h-3 text-red-500 dark:text-[#F28C28]" />
-              <span className="hidden sm:inline">Helpdesk:</span> {BUSINESS_INFO.displayHotline}
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Navigation Header */}
+    <header className="sticky top-0 z-50 w-full select-none">
       <nav
-        className={`w-full transition-all duration-200 border-b ${
+        className={`w-full transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] border-b ${
           scrolled
-            ? 'bg-white/95 dark:bg-[#0B0B0D]/95 backdrop-blur-md shadow-sm border-neutral-200 dark:border-[#303036] py-2.5 sm:py-3'
-            : 'bg-white dark:bg-[#0B0B0D] border-neutral-200 dark:border-[#202024] py-3 sm:py-4'
+            ? 'h-14 sm:h-15 bg-[var(--tx-bg)]/90 backdrop-blur-md border-[var(--tx-border)] shadow-[var(--tx-shadow)]'
+            : 'h-20 sm:h-22 bg-[var(--tx-bg)] border-[var(--tx-border)] shadow-none'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-          {/* Brand Logo */}
-          <TyresXpressLogo size="md" />
+        <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-2 xl:gap-4">
+          {/* Brand Logo: Scaled smoothly without remounting */}
+          <motion.div
+            animate={{
+              scale: scrolled ? (shouldReduceMotion ? 1 : 0.88) : 1,
+            }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="origin-left flex-shrink-0"
+          >
+            <TyresXpressLogo size="md" />
+          </motion.div>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center gap-1 xl:gap-2">
-            {NAV_LINKS.map((link) => {
-              const isActive =
-                link.href === '/'
-                  ? pathname === '/'
-                  : pathname.startsWith(link.href);
-
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
-                    isActive
-                      ? 'text-red-600 dark:text-[#F28C28] bg-red-50 dark:bg-[#202024] font-bold'
-                      : 'text-neutral-700 dark:text-neutral-300 hover:text-red-600 dark:hover:text-[#F28C28] hover:bg-neutral-100 dark:hover:bg-[#151519]'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Actions: Theme Toggle + Showroom Finder Button */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <ThemeToggle />
-
-            <Link
-              href="/showrooms"
-              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold tracking-tight text-white bg-red-600 hover:bg-red-700 dark:bg-[#F28C28] dark:hover:bg-[#FF9F43] dark:text-neutral-950 transition-colors shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
+          {/* Desktop Navigation Links: Dock with Fast Liquid Active Indicator */}
+          <LayoutGroup id="desktop-nav-tabs">
+            <div
+              className={`hidden lg:flex items-center rounded-full bg-[var(--tx-surface-secondary)] border border-[var(--tx-border)] backdrop-blur-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.03)] flex-shrink-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                scrolled ? 'gap-0.5 p-0.5' : 'gap-1 p-1'
+              }`}
             >
-              <MapPin className="w-4 h-4" />
-              <span>Find Showroom</span>
-            </Link>
+              {NAV_LINKS.map((link) => {
+                const isActive =
+                  link.href === '/'
+                    ? pathname === '/'
+                    : pathname.startsWith(link.href);
+
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    prefetch={true}
+                    className={`relative rounded-full text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 cursor-pointer ${
+                      scrolled ? 'px-3 py-1' : 'px-3.5 py-1.5'
+                    } ${
+                      isActive
+                        ? 'text-red-600 dark:text-neutral-950 font-bold'
+                        : 'text-[var(--tx-text-secondary)] hover:text-[var(--tx-text-primary)]'
+                    }`}
+                  >
+                    {/* Liquid Glass Active Pill Indicator - locked to pathname dependency to prevent scroll glitches */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="liquidActiveNavIndicator"
+                        layoutDependency={pathname}
+                        className="pointer-events-none absolute inset-0 rounded-full bg-white border border-neutral-200/90 dark:border-white/20 shadow-[0_2px_8px_rgba(0,0,0,0.06),inset_0_1px_1px_rgba(255,255,255,0.9)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.2)] -z-10"
+                        transition={
+                          shouldReduceMotion
+                            ? { duration: 0.05 }
+                            : {
+                                type: 'spring',
+                                stiffness: 520,
+                                damping: 38,
+                                mass: 0.8,
+                              }
+                        }
+                      />
+                    )}
+                    <span className="relative z-10 pointer-events-none whitespace-nowrap">{link.name}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </LayoutGroup>
+
+          {/* Right Header Cluster: Integrated Contact + Theme Toggle + Showrooms CTA */}
+          <div className="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
+            {/* Contact Details (Integrated cleanly without wrapping) */}
+            <div
+              className={`hidden xl:flex items-center flex-shrink-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                scrolled ? 'gap-1.5 text-[11px]' : 'gap-2 text-xs'
+              }`}
+            >
+              {/* Email Link: icon on xl, full address on 2xl */}
+              <a
+                href={`mailto:${BUSINESS_INFO.email}`}
+                title={`Email: ${BUSINESS_INFO.email}`}
+                className="inline-flex items-center gap-1.5 text-[var(--tx-text-secondary)] hover:text-red-600 transition-colors py-1 px-2 rounded-lg hover:bg-[var(--tx-surface-secondary)] whitespace-nowrap flex-shrink-0"
+              >
+                <Mail className="w-3.5 h-3.5 text-red-600 flex-shrink-0" />
+                <span className="font-medium whitespace-nowrap hidden 2xl:inline">{BUSINESS_INFO.email}</span>
+              </a>
+
+              {/* Phone Link: always visible on xl+ */}
+              <a
+                href={`tel:${BUSINESS_INFO.centralHotline}`}
+                onClick={() => trackPhoneClick({ showroom: 'central_hotline', location: 'header_desktop_hotline' })}
+                title="Call TyresXpress Helpdesk"
+                className="inline-flex items-center gap-1.5 font-bold text-[var(--tx-text-primary)] hover:text-red-600 transition-colors py-1 px-2 rounded-lg hover:bg-[var(--tx-surface-secondary)] whitespace-nowrap flex-shrink-0"
+              >
+                <Phone className="w-3.5 h-3.5 text-red-600 flex-shrink-0" />
+                <span className="whitespace-nowrap">{BUSINESS_INFO.displayHotline}</span>
+              </a>
+            </div>
+
+            {/* Mobile / Tablet Quick Call Button */}
+            <a
+              href={`tel:${BUSINESS_INFO.centralHotline}`}
+              onClick={() => trackPhoneClick({ showroom: 'central_hotline', location: 'header_mobile_quick_call' })}
+              aria-label={`Call Helpdesk ${BUSINESS_INFO.displayHotline}`}
+              className={`xl:hidden inline-flex items-center justify-center rounded-full border border-[var(--tx-border)] bg-[var(--tx-surface-secondary)] hover:bg-[var(--tx-card)] text-[var(--tx-text-primary)] hover:text-red-600 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer flex-shrink-0 ${
+                scrolled ? 'w-8 h-8 sm:w-9 sm:h-9' : 'w-9 h-9 sm:w-10 sm:h-10'
+              }`}
+            >
+              <Phone className="w-4 h-4 text-red-600" />
+            </a>
+
+            {/* Theme Toggle */}
+            <ThemeToggle className="flex-shrink-0" />
+
+            {/* Showroom Finder CTA - Guaranteed Single Line */}
+            <motion.div
+              whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
+              className="flex-shrink-0"
+            >
+              <Link
+                href="/showrooms"
+                prefetch={true}
+                className={`hidden sm:inline-flex items-center gap-1.5 rounded-xl font-bold tracking-tight text-white bg-red-600 hover:bg-red-700 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500 cursor-pointer whitespace-nowrap flex-shrink-0 ${
+                  scrolled ? 'px-3 py-1.5 text-xs' : 'px-3.5 py-2 text-xs sm:text-sm'
+                }`}
+              >
+                <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+                <span className="whitespace-nowrap">Find Showroom</span>
+              </Link>
+            </motion.div>
 
             {/* Mobile Hamburger Button */}
-            <button
+            <motion.button
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.92 }}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               type="button"
-              className="lg:hidden inline-flex items-center justify-center p-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-[#151519] border border-neutral-200 dark:border-[#303036] focus:outline-none"
+              className="lg:hidden inline-flex items-center justify-center p-2 rounded-xl text-[var(--tx-text-secondary)] hover:text-[var(--tx-text-primary)] hover:bg-[var(--tx-surface-secondary)] border border-[var(--tx-border)] focus:outline-none transition-colors cursor-pointer flex-shrink-0"
               aria-expanded={mobileMenuOpen}
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+            </motion.button>
           </div>
         </div>
       </nav>
 
       {/* Mobile Drawer Navigation */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden border-b border-neutral-200 dark:border-[#303036] bg-white dark:bg-[#0B0B0D] px-4 pt-3 pb-6 shadow-xl transition-all">
-          <div className="flex flex-col space-y-1">
-            {NAV_LINKS.map((link) => {
-              const isActive =
-                link.href === '/'
-                  ? pathname === '/'
-                  : pathname.startsWith(link.href);
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+            transition={{ duration: 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="lg:hidden border-b border-[var(--tx-border)] bg-[var(--tx-bg)]/95 backdrop-blur-xl px-4 pt-3 pb-6 shadow-xl overflow-hidden"
+          >
+            <div className="flex flex-col space-y-1">
+              {NAV_LINKS.map((link) => {
+                const isActive =
+                  link.href === '/'
+                    ? pathname === '/'
+                    : pathname.startsWith(link.href);
 
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
-                    isActive
-                      ? 'text-red-600 dark:text-[#F28C28] bg-red-50 dark:bg-[#151519] font-bold'
-                      : 'text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-[#151519]'
-                  }`}
-                >
-                  <span>{link.name}</span>
-                  <ChevronRight className="w-4 h-4 opacity-50" />
-                </Link>
-              );
-            })}
-          </div>
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    prefetch={true}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                      isActive
+                        ? 'text-red-600 dark:text-white bg-red-50 dark:bg-white/[0.08] font-bold border border-red-100 dark:border-white/10'
+                        : 'text-[var(--tx-text-primary)] hover:bg-[var(--tx-surface-secondary)]'
+                    }`}
+                  >
+                    <span>{link.name}</span>
+                    <ChevronRight className="w-4 h-4 opacity-50" />
+                  </Link>
+                );
+              })}
+            </div>
 
-          {/* Mobile Quick Showrooms Access */}
-          <div className="mt-5 pt-4 border-t border-neutral-200 dark:border-[#202024]">
-            <p className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-2 px-1">
-              Bengaluru Branches:
-            </p>
-            <div className="space-y-2">
-              {SHOWROOMS.map((s) => (
+            {/* Mobile Contact & Showrooms Section */}
+            <div className="mt-5 pt-4 border-t border-[var(--tx-border)] space-y-3">
+              <div className="p-3 rounded-xl bg-[var(--tx-surface-secondary)] border border-[var(--tx-border)] space-y-2">
                 <a
-                  key={s.id}
-                  href={`tel:${s.phone}`}
-                  className="flex items-center justify-between p-2 rounded-lg bg-neutral-50 dark:bg-[#151519] border border-neutral-200 dark:border-[#202024] text-xs"
+                  href={`tel:${BUSINESS_INFO.centralHotline}`}
+                  onClick={() => trackPhoneClick({ showroom: 'central_hotline', location: 'header_mobile_menu_hotline' })}
+                  className="flex items-center justify-between text-xs font-bold text-[var(--tx-text-primary)] hover:text-red-600"
                 >
-                  <div>
-                    <span className="font-semibold text-neutral-900 dark:text-white block">
-                      {s.shortName}
-                    </span>
-                    <span className="text-neutral-500 dark:text-neutral-400">
-                      9 AM – 8 PM
-                    </span>
-                  </div>
-                  <span className="font-mono font-bold text-red-600 dark:text-[#F28C28] flex items-center gap-1">
-                    <Phone className="w-3 h-3" />
-                    {s.phone}
+                  <span className="inline-flex items-center gap-2">
+                    <Phone className="w-3.5 h-3.5 text-red-600" />
+                    Helpdesk Hotline
                   </span>
+                  <span className="font-mono text-red-600">{BUSINESS_INFO.displayHotline}</span>
                 </a>
-              ))}
-            </div>
+                <a
+                  href={`mailto:${BUSINESS_INFO.email}`}
+                  className="flex items-center justify-between text-xs text-[var(--tx-text-secondary)] hover:text-[var(--tx-text-primary)] pt-2 border-t border-[var(--tx-border)]"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <Mail className="w-3.5 h-3.5 text-red-600" />
+                    Support Email
+                  </span>
+                  <span className="font-mono text-[11px] truncate max-w-[180px]">{BUSINESS_INFO.email}</span>
+                </a>
+              </div>
 
-            <div className="mt-4 flex gap-2">
-              <Link
-                href="/showrooms"
-                className="flex-1 py-2.5 text-center text-xs font-bold rounded-lg text-white bg-red-600 dark:bg-[#F28C28] dark:text-neutral-950"
-              >
-                All Showrooms & Directions
-              </Link>
-              <Link
-                href="/contact"
-                className="flex-1 py-2.5 text-center text-xs font-bold rounded-lg border border-neutral-300 dark:border-[#303036] text-neutral-800 dark:text-neutral-200"
-              >
-                Book Inspection
-              </Link>
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--tx-text-muted)] px-1">
+                Bengaluru Showrooms:
+              </p>
+              <div className="space-y-2">
+                {SHOWROOMS.map((s) => (
+                  <a
+                    key={s.id}
+                    href={`tel:${s.phone}`}
+                    onClick={() => trackPhoneClick({ showroom: s.id, location: 'header_mobile_menu_showroom' })}
+                    className="flex items-center justify-between p-2.5 rounded-xl bg-[var(--tx-surface-secondary)] border border-[var(--tx-border)] text-xs transition-colors hover:border-red-500/50"
+                  >
+                    <div>
+                      <span className="font-semibold text-[var(--tx-text-primary)] block">
+                        {s.shortName}
+                      </span>
+                      <span className="text-[var(--tx-text-muted)] text-[11px]">
+                        9 AM – 8 PM Daily
+                      </span>
+                    </div>
+                    <span className="font-mono font-bold text-red-600 flex items-center gap-1">
+                      <Phone className="w-3 h-3" />
+                      {s.phone}
+                    </span>
+                  </a>
+                ))}
+              </div>
+
+              <div className="mt-4 flex gap-2">
+                <Link
+                  href="/showrooms"
+                  prefetch={true}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex-1 py-2.5 text-center text-xs font-bold rounded-xl text-white bg-red-600 hover:bg-red-700 transition-colors shadow-sm"
+                >
+                  All Showrooms & Directions
+                </Link>
+                <Link
+                  href="/contact"
+                  prefetch={true}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex-1 py-2.5 text-center text-xs font-bold rounded-xl border border-[var(--tx-border)] text-[var(--tx-text-primary)] hover:bg-[var(--tx-surface-secondary)] transition-colors"
+                >
+                  Book Inspection
+                </Link>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

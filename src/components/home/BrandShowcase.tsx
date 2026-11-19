@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { BRANDS } from '@/data/business';
 import { ShieldCheck, Check } from 'lucide-react';
 
@@ -15,6 +16,7 @@ const CATEGORIES = [
 
 export function BrandShowcase() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All Brands');
+  const shouldReduceMotion = useReducedMotion();
 
   const filteredBrands =
     selectedCategory === 'All Brands'
@@ -31,10 +33,11 @@ export function BrandShowcase() {
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-150 border ${
+            type="button"
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap border transition-colors cursor-pointer ${
               selectedCategory === cat
-                ? 'bg-neutral-900 text-white dark:bg-[#F28C28] dark:text-neutral-950 border-neutral-900 dark:border-[#F28C28] shadow-sm'
-                : 'bg-white dark:bg-[#151519] text-neutral-600 dark:text-neutral-400 border-neutral-200 dark:border-[#303036] hover:bg-neutral-100 dark:hover:bg-[#202024]'
+                ? 'bg-red-600 text-white border-red-600 shadow-sm'
+                : 'bg-[var(--tx-card)] text-[var(--tx-text-secondary)] border-[var(--tx-border)] hover:border-[#FF6B00]/50 hover:text-[var(--tx-text-primary)] hover:bg-[var(--tx-surface-secondary)] tx-surface-primary'
             }`}
           >
             {cat}
@@ -42,50 +45,96 @@ export function BrandShowcase() {
         ))}
       </div>
 
-      {/* Grid of Clean Text-Based Brand Treatments */}
+      {/* Grid of 16 Brand Cards with Cohesive Accent Sweep, Glow & Wordmark Motion */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
-        {filteredBrands.map((brand) => (
-          <div
-            key={brand.name}
-            className="group relative p-4 rounded-xl border border-neutral-200 dark:border-[#303036] bg-white dark:bg-[#151519] hover:border-red-500 dark:hover:border-[#F28C28] hover:shadow-md transition-all duration-200 flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex items-center justify-between text-[10px] text-neutral-400 dark:text-neutral-500 mb-2">
-                <span className="font-mono uppercase tracking-wider">{brand.origin}</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-300 dark:bg-neutral-700 group-hover:bg-red-500 dark:group-hover:bg-[#F28C28] transition-colors" />
+        {filteredBrands.map((brand) => {
+          const isYokohama = brand.name === 'Yokohama';
+          return (
+            <motion.div
+              key={brand.name}
+              whileHover={
+                shouldReduceMotion
+                  ? undefined
+                  : {
+                      y: -4,
+                      scale: 1.015,
+                      transition: { type: 'spring', stiffness: 380, damping: 24 },
+                    }
+              }
+              className="group relative overflow-hidden p-4 rounded-xl border border-[var(--tx-border)] hover:border-[#FF6B00]/65 bg-[var(--tx-card)] tx-card flex flex-col justify-between shadow-xs hover:shadow-[0_10px_28px_-6px_rgba(255,107,0,0.22)] dark:hover:shadow-[0_12px_32px_-6px_rgba(255,107,0,0.28)] transition-[border-color,box-shadow] duration-300 cursor-default"
+            >
+              {/* 1. Top Precision Laser Accent Sweep */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-red-600 via-[#FF6B00] to-red-600 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              />
+
+              {/* 2. Controlled Red / Mandarin-Orange Diagonal Surface Glow */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-[#FF6B00]/[0.08] via-red-600/[0.03] to-transparent dark:from-[#FF6B00]/[0.14] dark:via-red-600/[0.06] dark:to-transparent"
+              />
+
+              <div className="relative z-10">
+                <div className="flex items-center justify-between gap-1 text-[10px] text-[var(--tx-text-muted)] mb-2">
+                  <span className="font-mono uppercase tracking-wider group-hover:text-[var(--tx-text-secondary)] transition-colors">
+                    {brand.origin}
+                  </span>
+                  {isYokohama ? (
+                    <span
+                      title="Yokohama Club Network (YCN) Pro Dealer"
+                      className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider whitespace-nowrap bg-red-600/10 text-red-600 dark:bg-red-500/15 dark:text-red-400 border border-red-500/25 group-hover:bg-[#FF6B00] group-hover:text-white group-hover:border-[#FF6B00] transition-colors leading-none"
+                    >
+                      YCN Pro
+                    </span>
+                  ) : (
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--tx-border-strong)] group-hover:bg-[#FF6B00] group-hover:scale-125 group-hover:shadow-[0_0_8px_rgba(255,107,0,0.85)] transition-all duration-300" />
+                  )}
+                </div>
+
+                {/* 3. Brand Wordmark with Sliding Accent Bar */}
+                <div className="relative flex items-center">
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-0 w-1 h-4 rounded-full bg-gradient-to-b from-red-600 to-[#FF6B00] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                  />
+                  <h4 className="text-base sm:text-lg font-black tracking-tight text-[var(--tx-text-primary)] uppercase group-hover:translate-x-2.5 group-hover:text-red-600 dark:group-hover:text-[#FF6B00] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    {brand.name}
+                  </h4>
+                </div>
+
+                <p className="text-[11px] text-[var(--tx-text-muted)] italic line-clamp-1 mt-0.5">
+                  &ldquo;{brand.tagline}&rdquo;
+                </p>
               </div>
 
-              {/* Distinctive Automotive Typography for Brand Wordmark */}
-              <h4 className="text-base sm:text-lg font-black tracking-tight text-neutral-900 dark:text-white uppercase group-hover:text-red-600 dark:group-hover:text-[#F28C28] transition-colors">
-                {brand.name}
-              </h4>
-
-              <p className="text-[11px] text-neutral-500 dark:text-neutral-400 italic line-clamp-1 mt-0.5">
-                &ldquo;{brand.tagline}&rdquo;
-              </p>
-            </div>
-
-            <div className="mt-3 pt-2 border-t border-neutral-100 dark:border-[#202024] text-[10px] text-neutral-500 dark:text-neutral-400 line-clamp-2 leading-snug">
-              {brand.popularFor}
-            </div>
-          </div>
-        ))}
+              <div className="relative z-10 mt-3 pt-2 border-t border-[var(--tx-border)] text-[10px] text-[var(--tx-text-muted)] group-hover:text-[var(--tx-text-secondary)] transition-colors line-clamp-2 leading-snug">
+                {/* Animated divider accent sweep */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -top-[1px] left-0 right-0 h-[1px] bg-gradient-to-r from-[#FF6B00] via-red-600 to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                />
+                {brand.popularFor}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* Assurance Footer */}
-      <div className="p-4 rounded-xl bg-neutral-50 dark:bg-[#151519] border border-neutral-200 dark:border-[#303036] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-600 dark:text-neutral-400">
+      <div className="p-4 rounded-xl bg-[var(--tx-surface-secondary)] border border-[var(--tx-border)] tx-surface-secondary flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--tx-text-secondary)]">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+          <ShieldCheck className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
           <span>
             Every brand purchased at TyresXpress is 100% genuine with authentic direct manufacturer warranty.
           </span>
         </div>
-        <div className="flex items-center gap-3 text-[11px] font-semibold text-neutral-700 dark:text-neutral-300">
+        <div className="flex items-center gap-3 text-[11px] font-semibold text-[var(--tx-text-secondary)]">
           <span className="flex items-center gap-1">
-            <Check className="w-3.5 h-3.5 text-red-600 dark:text-[#F28C28]" /> Fresh Production Stock
+            <Check className="w-3.5 h-3.5 text-red-600" /> Fresh Production Stock
           </span>
           <span className="flex items-center gap-1">
-            <Check className="w-3.5 h-3.5 text-red-600 dark:text-[#F28C28]" /> Zero Scratches Mounting
+            <Check className="w-3.5 h-3.5 text-[#FF6B00]" /> Zero Scratches Mounting
           </span>
         </div>
       </div>

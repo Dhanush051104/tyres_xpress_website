@@ -36,7 +36,7 @@ export function ImagePlaceholder({
 
   return (
     <div
-      className={`relative w-full overflow-hidden rounded-xl border border-dashed border-neutral-300 dark:border-[#303036] bg-neutral-100/80 dark:bg-[#151519]/90 transition-all duration-200 group ${aspectClass} ${className}`}
+      className={`relative w-full overflow-hidden rounded-xl border border-dashed border-[var(--tx-border)] bg-[var(--tx-surface-secondary)] tx-surface-secondary group ${aspectClass} ${className}`}
       data-placeholder-id={id}
       data-target-path={meta.targetPath}
       aria-label={`${meta.title} (Placeholder ${id})`}
@@ -53,33 +53,33 @@ export function ImagePlaceholder({
       />
 
       {/* Crosshair precision marks in 4 corners */}
-      <div className="absolute top-2 left-2 w-2.5 h-2.5 border-t border-l border-neutral-400 dark:border-neutral-600 pointer-events-none" />
-      <div className="absolute top-2 right-2 w-2.5 h-2.5 border-t border-r border-neutral-400 dark:border-neutral-600 pointer-events-none" />
-      <div className="absolute bottom-2 left-2 w-2.5 h-2.5 border-b border-l border-neutral-400 dark:border-neutral-600 pointer-events-none" />
-      <div className="absolute bottom-2 right-2 w-2.5 h-2.5 border-b border-r border-neutral-400 dark:border-neutral-600 pointer-events-none" />
+      <div className="absolute top-2 left-2 w-2.5 h-2.5 border-t border-l border-[var(--tx-border-strong)] pointer-events-none" />
+      <div className="absolute top-2 right-2 w-2.5 h-2.5 border-t border-r border-[var(--tx-border-strong)] pointer-events-none" />
+      <div className="absolute bottom-2 left-2 w-2.5 h-2.5 border-b border-l border-[var(--tx-border-strong)] pointer-events-none" />
+      <div className="absolute bottom-2 right-2 w-2.5 h-2.5 border-b border-r border-[var(--tx-border-strong)] pointer-events-none" />
 
       {/* Top Bar with Clear ID Tag */}
       <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5">
-        <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono font-bold tracking-wider bg-white dark:bg-[#202024] text-red-600 dark:text-[#F28C28] border border-neutral-200 dark:border-[#303036] shadow-sm">
-          <span className="w-1.5 h-1.5 rounded-full bg-red-600 dark:bg-[#F28C28] mr-1.5 animate-pulse" />
+        <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono font-bold tracking-wider bg-[var(--tx-card)] text-red-600 dark:text-red-500 border border-[var(--tx-border)] shadow-sm">
+          <span className="w-1.5 h-1.5 rounded-full bg-red-600 dark:bg-red-500 mr-1.5 animate-pulse" />
           {id}
         </span>
-        <span className="hidden sm:inline-flex px-2 py-0.5 rounded text-[10px] font-medium tracking-wide uppercase bg-neutral-200/80 dark:bg-[#202024]/80 text-neutral-600 dark:text-neutral-400">
+        <span className="hidden sm:inline-flex px-2 py-0.5 rounded text-[10px] font-semibold tracking-wide uppercase bg-[var(--tx-card)] text-[var(--tx-text-secondary)] border border-[var(--tx-border)] shadow-xs">
           {meta.section}
         </span>
       </div>
 
       {/* Target dimensions tag in top-right */}
-      <div className="absolute top-3 right-3 z-10 text-[11px] font-mono font-semibold text-neutral-500 dark:text-neutral-500 bg-white/70 dark:bg-[#202024]/70 px-2 py-0.5 rounded border border-neutral-200/60 dark:border-[#303036]/60">
+      <div className="absolute top-3 right-3 z-10 text-[11px] font-mono font-semibold text-[var(--tx-text-secondary)] bg-[var(--tx-card)] px-2 py-0.5 rounded border border-[var(--tx-border)] shadow-xs">
         {meta.width} × {meta.height} ({activeAspect})
       </div>
 
       {/* Center Content: Intentionally clean, automotive placeholder indicator */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center select-none">
         {/* Stylized camera aperture / photographic reticle */}
-        <div className="w-12 h-12 rounded-full border border-neutral-300 dark:border-neutral-700 flex items-center justify-center mb-3 bg-white/50 dark:bg-[#151519]/50 shadow-sm">
+        <div className="w-12 h-12 rounded-full border border-[var(--tx-border)] flex items-center justify-center mb-3 bg-[var(--tx-surface)] shadow-sm">
           <svg
-            className="w-5 h-5 text-neutral-400 dark:text-neutral-500"
+            className="w-5 h-5 text-neutral-500 dark:text-neutral-300"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -94,19 +94,19 @@ export function ImagePlaceholder({
           </svg>
         </div>
 
-        <p className="text-xs sm:text-sm font-semibold text-neutral-800 dark:text-neutral-200 max-w-[85%] leading-tight">
+        <p className="text-xs sm:text-sm font-semibold text-[var(--tx-text-primary)] max-w-[85%] leading-tight">
           {customLabel || meta.title}
         </p>
 
         {showDetails && (
-          <p className="mt-1 text-[11px] text-neutral-500 dark:text-neutral-400 max-w-[80%] line-clamp-2">
+          <p className="mt-1 text-[11px] text-[var(--tx-text-secondary)] max-w-[80%] line-clamp-2">
             {meta.description}
           </p>
         )}
 
         {/* Manifest link hint */}
-        <div className="mt-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-500 tracking-tight">
-          Target: <code className="text-neutral-600 dark:text-neutral-400">{meta.targetPath}</code>
+        <div className="mt-2 text-[10px] font-mono text-[var(--tx-text-muted)] tracking-tight">
+          Target: <code className="px-1.5 py-0.5 rounded bg-[var(--tx-card)] border border-[var(--tx-border)] text-[var(--tx-text-primary)] font-mono">{meta.targetPath}</code>
         </div>
       </div>
     </div>

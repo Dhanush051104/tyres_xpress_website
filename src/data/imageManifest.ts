@@ -22,6 +22,7 @@ export const IMAGE_MANIFEST: Record<string, ImageManifestEntry> = {
     height: 1080,
     aspectRatio: '16/9',
     description: 'Cinematic wide-angle view of a TyresXpress workshop showing multi-brand tyre inventory and precision fitting bays with customer car in service.',
+    readyForUpload: true,
   },
   'IMG-002': {
     id: 'IMG-002',
@@ -55,6 +56,7 @@ export const IMAGE_MANIFEST: Record<string, ImageManifestEntry> = {
     height: 600,
     aspectRatio: '4/3',
     description: 'Vehicle mounted on 3D computer wheel alignment scissor lift with high-definition optical sensor targets on all four wheels.',
+    readyForUpload: true,
   },
   'IMG-005': {
     id: 'IMG-005',
@@ -66,6 +68,7 @@ export const IMAGE_MANIFEST: Record<string, ImageManifestEntry> = {
     height: 600,
     aspectRatio: '4/3',
     description: 'Wheel mounted on high-precision digital wheel balancing machine with laser weight positioning indicator.',
+    readyForUpload: true,
   },
   'IMG-006': {
     id: 'IMG-006',
@@ -77,6 +80,7 @@ export const IMAGE_MANIFEST: Record<string, ImageManifestEntry> = {
     height: 600,
     aspectRatio: '4/3',
     description: 'Automated nitrogen generator station with digital pressure gauge and technician inflating tyre with green valve caps.',
+    readyForUpload: true,
   },
   'IMG-007': {
     id: 'IMG-007',
@@ -88,6 +92,7 @@ export const IMAGE_MANIFEST: Record<string, ImageManifestEntry> = {
     height: 600,
     aspectRatio: '4/3',
     description: 'Precision hydraulic wheel straightening lathe measuring runout dial gauge and repairing alloy rim deformation.',
+    readyForUpload: true,
   },
   'IMG-008': {
     id: 'IMG-008',
@@ -110,6 +115,7 @@ export const IMAGE_MANIFEST: Record<string, ImageManifestEntry> = {
     height: 800,
     aspectRatio: '3/2',
     description: 'Exterior storefront and service bays of TyresXpress Siddapura showroom on Varthur Main Road with customer parking.',
+    readyForUpload: true,
   },
   'IMG-010': {
     id: 'IMG-010',
@@ -121,6 +127,7 @@ export const IMAGE_MANIFEST: Record<string, ImageManifestEntry> = {
     height: 800,
     aspectRatio: '3/2',
     description: 'Exterior view of TyresXpress Horamavu facility featuring tyre service bays and dedicated foam car wash bay.',
+    readyForUpload: true,
   },
   'IMG-011': {
     id: 'IMG-011',
@@ -132,6 +139,7 @@ export const IMAGE_MANIFEST: Record<string, ImageManifestEntry> = {
     height: 800,
     aspectRatio: '3/2',
     description: 'Modern storefront and tyre fitting bay of TyresXpress Balagere showroom near Sobha Dream Acres, Panathur.',
+    readyForUpload: true,
   },
   'IMG-012': {
     id: 'IMG-012',
@@ -188,6 +196,18 @@ export const IMAGE_MANIFEST: Record<string, ImageManifestEntry> = {
     aspectRatio: '16/9',
     description: 'Detailed diagram illustrating tyre width, aspect ratio, radial construction, rim diameter, load index and speed symbol.',
   },
+  'IMG-017': {
+    id: 'IMG-017',
+    title: 'Cinematic Intro Background — Close-Up Front Wheel & Tyre',
+    section: 'Cinematic Intro Animation',
+    page: 'Home (Intro)',
+    targetPath: '/images/intro/intro-vehicle-background.jpg',
+    width: 1376,
+    height: 768,
+    aspectRatio: '16/9',
+    description: 'Low-key studio close-up of a dark grey performance car facing right, dominated by a bronze multi-spoke alloy wheel and a plain, unbranded tyre sidewall. Dark negative space on the left for the animated wordmark. AI-generated image (no tyre brand, logos or text).',
+    readyForUpload: true,
+  },
 };
 
 export function getImageMeta(id: string): ImageManifestEntry {
@@ -206,4 +226,48 @@ export function getImageMeta(id: string): ImageManifestEntry {
     };
   }
   return meta;
+}
+
+export interface BrandLogoEntry {
+  slug: string;
+  name: string;
+  targetPath: string;
+  width: number;
+  height: number;
+  aspectRatio: string;
+  readyForUpload?: boolean;
+}
+
+export const BRAND_LOGOS: Record<string, BrandLogoEntry> = {
+  yokohama: { slug: 'yokohama', name: 'Yokohama', targetPath: '/images/brands/yokohama.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  bridgestone: { slug: 'bridgestone', name: 'Bridgestone', targetPath: '/images/brands/bridgestone.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  continental: { slug: 'continental', name: 'Continental', targetPath: '/images/brands/continental.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  michelin: { slug: 'michelin', name: 'Michelin', targetPath: '/images/brands/michelin.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  pirelli: { slug: 'pirelli', name: 'Pirelli', targetPath: '/images/brands/pirelli.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  apollo: { slug: 'apollo', name: 'Apollo', targetPath: '/images/brands/apollo.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  goodyear: { slug: 'goodyear', name: 'Goodyear', targetPath: '/images/brands/goodyear.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  mrf: { slug: 'mrf', name: 'MRF', targetPath: '/images/brands/mrf.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  ceat: { slug: 'ceat', name: 'CEAT', targetPath: '/images/brands/ceat.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  'jk-tyre': { slug: 'jk-tyre', name: 'JK Tyre', targetPath: '/images/brands/jktyres.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  jktyres: { slug: 'jktyres', name: 'JK Tyre', targetPath: '/images/brands/jktyres.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  reise: { slug: 'reise', name: 'Reise', targetPath: '/images/brands/reise.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  bkt: { slug: 'bkt', name: 'BKT', targetPath: '/images/brands/bkt.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  dunlop: { slug: 'dunlop', name: 'Dunlop', targetPath: '/images/brands/dunlop.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  tvs: { slug: 'tvs', name: 'TVS', targetPath: '/images/brands/tvs.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  vredestein: { slug: 'vredestein', name: 'Vredestein', targetPath: '/images/brands/vredestein.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+  firestone: { slug: 'firestone', name: 'Firestone', targetPath: '/images/brands/firestone.png', width: 400, height: 160, aspectRatio: '5/2', readyForUpload: true },
+};
+
+export function getBrandLogo(slug: string): BrandLogoEntry {
+  // Normalize slug variations like jk-tyre to jktyres
+  const normalized = slug === 'jk-tyre' || slug === 'jk tyre' || slug === 'jk' ? 'jktyres' : slug;
+  return BRAND_LOGOS[normalized] || BRAND_LOGOS[slug] || {
+    slug,
+    name: slug,
+    targetPath: `/images/brands/${slug}.png`,
+    width: 400,
+    height: 160,
+    aspectRatio: '5/2',
+    readyForUpload: true,
+  };
 }

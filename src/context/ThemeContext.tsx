@@ -1,6 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import { flushSync } from 'react-dom';
 
 type Theme = 'light' | 'dark' | 'system';
 
@@ -13,10 +14,28 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+function commitDomTheme(
+  effectiveTheme: 'light' | 'dark',
+  stateUpdater: () => void
+) {
+  const root = document.documentElement;
+  root.classList.add('tx-theme-snap');
+  flushSync(() => {
+    stateUpdater();
+  });
+  if (effectiveTheme === 'dark') {
+    root.classList.add('dark');
+  } else {
+    root.classList.remove('dark');
+  }
+  // Force synchronous style flush while element-level transitions are suppressed
+  void root.offsetHeight;
+  root.classList.remove('tx-theme-snap');
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('system');
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     // Read from localStorage if present
@@ -34,20 +53,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       document.documentElement.classList.remove('dark');
     }
 
-    setMounted(true);
-
     // Listen for system preference changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
       const currentStored = localStorage.getItem('tx-theme') as Theme | null;
       if (!currentStored || currentStored === 'system') {
         const newTheme = e.matches ? 'dark' : 'light';
-        setResolvedTheme(newTheme);
-        if (newTheme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
+        commitDomTheme(newTheme, () => {
+          setResolvedTheme(newTheme);
+        });
       }
     };
 
@@ -55,9 +69,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    localStorage.setItem('tx-theme', newTheme);
+  const setTheme = useCallback((newTheme: Theme) => {
+    try {
+      localStorage.setItem('tx-theme', newTheme);
+    } catch {
+      // ignore
+    }
 
     let effectiveTheme: 'light' | 'dark' = 'light';
     if (newTheme === 'system') {
@@ -66,21 +83,39 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       effectiveTheme = newTheme;
     }
 
-    setResolvedTheme(effectiveTheme);
-    if (effectiveTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
+    const applyUpdate = () => {
+      commitDomTheme(effectiveTheme, () => {
+        setThemeState(newTheme);
+        setResolvedTheme(effectiveTheme);
+      });
+    };
 
-  const toggleTheme = () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const docWithVT = document as Document & {
+      startViewTransition?: (callback: () => void) => unknown;
+    };
+
+    if (typeof docWithVT.startViewTransition === 'function' && !prefersReducedMotion) {
+      docWithVT.startViewTransition(() => {
+        applyUpdate();
+      });
+    } else {
+      applyUpdate();
+    }
+  }, []);
+
+  const toggleTheme = useCallback(() => {
     const nextTheme = resolvedTheme === 'dark' ? 'light' : 'dark';
     setTheme(nextTheme);
-  };
+  }, [resolvedTheme, setTheme]);
+
+  const contextValue = useMemo(
+    () => ({ theme, resolvedTheme, setTheme, toggleTheme }),
+    [theme, resolvedTheme, setTheme, toggleTheme]
+  );
 
   return (
-    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggleTheme }}>
+    <ThemeContext.Provider value={contextValue}>
       {children}
     </ThemeContext.Provider>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { useTheme } from '@/context/ThemeContext';
 import { Sun, Moon } from 'lucide-react';
 
@@ -11,6 +12,7 @@ interface ThemeToggleProps {
 export function ThemeToggle({ className = '' }: ThemeToggleProps) {
   const { resolvedTheme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     setMounted(true);
@@ -19,7 +21,7 @@ export function ThemeToggle({ className = '' }: ThemeToggleProps) {
   if (!mounted) {
     return (
       <div
-        className={`w-9 h-9 rounded-lg border border-neutral-200 dark:border-[#303036] bg-neutral-100 dark:bg-[#151519] ${className}`}
+        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[var(--tx-border)] bg-[var(--tx-surface-secondary)] ${className}`}
         aria-hidden="true"
       />
     );
@@ -28,19 +30,41 @@ export function ThemeToggle({ className = '' }: ThemeToggleProps) {
   const isDark = resolvedTheme === 'dark';
 
   return (
-    <button
+    <motion.button
+      whileHover={shouldReduceMotion ? undefined : { scale: 1.05, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+      whileTap={shouldReduceMotion ? undefined : { scale: 0.92, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
       onClick={toggleTheme}
       type="button"
-      className={`relative inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-lg transition-all duration-200 border border-neutral-300 dark:border-[#303036] bg-neutral-100 hover:bg-neutral-200 dark:bg-[#151519] dark:hover:bg-[#202024] text-neutral-800 dark:text-[#F28C28] hover:text-red-600 dark:hover:text-[#FF9F43] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 dark:focus-visible:ring-[#F28C28] shadow-sm ${className}`}
+      className={`relative inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[var(--tx-border)] bg-[var(--tx-surface-secondary)] hover:opacity-90 backdrop-blur-md text-[var(--tx-text-primary)] hover:text-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 shadow-sm cursor-pointer overflow-hidden tx-surface-secondary ${className}`}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-      title={`Switch to ${isDark ? 'light' : 'dark'} mode (Obsidian / Light)`}
+      title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
       <span className="sr-only">Toggle theme</span>
-      {isDark ? (
-        <Sun className="w-5 h-5 transition-transform duration-300 rotate-0 hover:rotate-45" />
-      ) : (
-        <Moon className="w-5 h-5 transition-transform duration-300 rotate-0 hover:-rotate-12" />
-      )}
-    </button>
+      <AnimatePresence initial={false}>
+        {isDark ? (
+          <motion.div
+            key="sun"
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, rotate: -45, scale: 0.8 }}
+            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, rotate: 45, scale: 0.8 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="flex items-center justify-center"
+          >
+            <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="moon"
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, rotate: -45, scale: 0.8 }}
+            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, rotate: 45, scale: 0.8 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="flex items-center justify-center"
+          >
+            <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-700" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.button>
   );
 }

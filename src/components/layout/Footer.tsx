@@ -3,42 +3,43 @@
 import React from 'react';
 import Link from 'next/link';
 import { TyresXpressLogo } from '@/components/common/TyresXpressLogo';
-import { Phone, Mail, MapPin, Clock, ShieldCheck, ArrowUpRight } from 'lucide-react';
+import { Phone, Mail, Clock, ShieldCheck, ArrowUpRight } from 'lucide-react';
 import { BUSINESS_INFO, SHOWROOMS, BRANDS } from '@/data/business';
+import { trackPhoneClick } from '@/lib/analytics';
 
 export function Footer() {
   return (
-    <footer className="w-full bg-neutral-950 text-neutral-300 border-t border-neutral-800 transition-colors">
+    <footer className="w-full bg-[#050505] text-[var(--platinum-2)] border-t border-[rgba(255,255,255,0.08)] transition-colors">
       {/* Top Banner: Multi-Brand Trust Bar */}
-      <div className="border-b border-neutral-800/80 bg-neutral-900/40 py-6 px-4 sm:px-6 lg:px-8">
+      <div className="border-b border-[rgba(255,255,255,0.08)] bg-[#111111] py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3 text-center md:text-left">
-            <div className="w-10 h-10 rounded-lg bg-red-600/10 dark:bg-[#F28C28]/10 border border-red-500/20 dark:border-[#F28C28]/20 flex items-center justify-center flex-shrink-0">
-              <ShieldCheck className="w-5 h-5 text-red-500 dark:text-[#F28C28]" />
+            <div className="w-10 h-10 rounded-lg bg-red-600/10 border border-red-500/20 flex items-center justify-center flex-shrink-0">
+              <ShieldCheck className="w-5 h-5 text-red-500" />
             </div>
             <div>
               <p className="text-sm font-bold text-white">
                 100% Genuine Tyres & Factory Warranty
               </p>
-              <p className="text-xs text-neutral-400">
+              <p className="text-xs text-[var(--platinum-2)]">
                 Authorized dealer supply with authentic digital warranty registration.
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-neutral-400">
-            <span className="font-semibold text-neutral-300">Authorized Brands:</span>
+          <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-[var(--platinum-2)]">
+            <span className="font-semibold text-white">Authorized Brands:</span>
             {BRANDS.slice(0, 8).map((b) => (
               <span
                 key={b.name}
-                className="px-2 py-0.5 rounded bg-neutral-800/80 text-neutral-300 text-[11px] font-medium"
+                className="px-2 py-0.5 rounded bg-[#161616] text-[var(--platinum-1)] border border-[rgba(255,255,255,0.08)] text-[11px] font-medium"
               >
                 {b.name}
               </span>
             ))}
             <Link
               href="/catalogue"
-              className="text-red-400 dark:text-[#F28C28] hover:underline text-[11px] font-semibold ml-1 inline-flex items-center"
+              className="text-red-400 hover:underline text-[11px] font-semibold ml-1 inline-flex items-center"
             >
               +6 more brands <ArrowUpRight className="w-3 h-3 ml-0.5" />
             </Link>
@@ -52,7 +53,7 @@ export function Footer() {
           {/* Column 1: Brand Info & Story */}
           <div className="lg:col-span-2 space-y-4">
             <TyresXpressLogo size="md" variant="dark" />
-            <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed max-w-md">
+            <p className="text-xs sm:text-sm text-[var(--platinum-2)] leading-relaxed max-w-md">
               Established in {BUSINESS_INFO.establishedYear}, {BUSINESS_INFO.name} is Bengaluru&apos;s
               trusted multi-brand tyre and automotive service destination. Delivering genuine tyres,
               laser-calibrated 3D wheel alignment, computerized dynamic balancing, and certified rim repairs
@@ -60,8 +61,8 @@ export function Footer() {
             </p>
 
             <div className="pt-2 space-y-2 text-xs">
-              <div className="flex items-center gap-2 text-neutral-300">
-                <Mail className="w-4 h-4 text-red-500 dark:text-[#F28C28] flex-shrink-0" />
+              <div className="flex items-center gap-2 text-[var(--platinum-1)]">
+                <Mail className="w-4 h-4 text-red-500 flex-shrink-0" />
                 <a
                   href={`mailto:${BUSINESS_INFO.email}`}
                   className="hover:text-white underline underline-offset-4"
@@ -69,14 +70,14 @@ export function Footer() {
                   {BUSINESS_INFO.email}
                 </a>
               </div>
-              <div className="flex items-center gap-2 text-neutral-300">
-                <Clock className="w-4 h-4 text-red-500 dark:text-[#F28C28] flex-shrink-0" />
+              <div className="flex items-center gap-2 text-[var(--platinum-1)]">
+                <Clock className="w-4 h-4 text-red-500 flex-shrink-0" />
                 <span>{BUSINESS_INFO.hoursCommon}</span>
               </div>
             </div>
 
             <div className="pt-3">
-              <span className="inline-block px-3 py-1 text-[11px] font-mono font-semibold rounded bg-neutral-900 border border-neutral-800 text-neutral-400">
+              <span className="inline-block px-3 py-1 text-[11px] font-mono font-semibold rounded bg-[#111111] border border-[rgba(255,255,255,0.08)] text-[var(--platinum-2)]">
                 Domain: {BUSINESS_INFO.domain}
               </span>
             </div>
@@ -89,32 +90,32 @@ export function Footer() {
             </h3>
             <ul className="space-y-2 text-xs sm:text-sm">
               <li>
-                <Link href="/" className="text-neutral-400 hover:text-white transition-colors">
+                <Link href="/" className="text-[var(--platinum-2)] hover:text-white transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-neutral-400 hover:text-white transition-colors">
+                <Link href="/about" className="text-[var(--platinum-2)] hover:text-white transition-colors">
                   About TyresXpress
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="text-neutral-400 hover:text-white transition-colors">
+                <Link href="/services" className="text-[var(--platinum-2)] hover:text-white transition-colors">
                   Automotive Services
                 </Link>
               </li>
               <li>
-                <Link href="/showrooms" className="text-neutral-400 hover:text-white transition-colors">
+                <Link href="/showrooms" className="text-[var(--platinum-2)] hover:text-white transition-colors">
                   Our Showrooms (3)
                 </Link>
               </li>
               <li>
-                <Link href="/catalogue" className="text-neutral-400 hover:text-white transition-colors">
+                <Link href="/catalogue" className="text-[var(--platinum-2)] hover:text-white transition-colors">
                   Tyre Guide & Markings
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-neutral-400 hover:text-white transition-colors">
+                <Link href="/contact" className="text-[var(--platinum-2)] hover:text-white transition-colors">
                   Contact & Bookings
                 </Link>
               </li>
@@ -126,7 +127,7 @@ export function Footer() {
             <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
               Services
             </h3>
-            <ul className="space-y-2 text-xs sm:text-sm text-neutral-400">
+            <ul className="space-y-2 text-xs sm:text-sm text-[var(--platinum-2)]">
               <li>
                 <Link href="/services#multi-brand-tyres" className="hover:text-white transition-colors">
                   Multi-Brand Tyres
@@ -162,6 +163,11 @@ export function Footer() {
                   Foam Car Wash (Horamavu)
                 </Link>
               </li>
+              <li>
+                <Link href="/services#car-accessories" className="hover:text-white transition-colors">
+                  Automotive Accessories
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -172,12 +178,13 @@ export function Footer() {
             </h3>
             <div className="space-y-4 text-xs">
               {SHOWROOMS.map((s) => (
-                <div key={s.id} className="border-l-2 border-red-600 dark:border-[#F28C28] pl-3 py-0.5">
+                <div key={s.id} className="border-l-2 border-red-600 pl-3 py-0.5">
                   <p className="font-bold text-white">{s.shortName}</p>
-                  <p className="text-neutral-400 text-[11px] line-clamp-1 mt-0.5">{s.address}</p>
+                  <p className="text-[var(--platinum-2)] text-[11px] line-clamp-1 mt-0.5">{s.address}</p>
                   <a
                     href={`tel:${s.phone}`}
-                    className="inline-flex items-center gap-1.5 font-mono font-bold text-red-400 dark:text-[#F28C28] hover:underline mt-1"
+                    onClick={() => trackPhoneClick({ showroom: s.id, location: 'footer_showroom' })}
+                    className="inline-flex items-center gap-1.5 font-mono font-bold text-red-400 hover:underline mt-1"
                   >
                     <Phone className="w-3 h-3" />
                     {s.displayPhone}
@@ -188,8 +195,8 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Legal & Future Roadmap Line */}
-        <div className="mt-12 pt-8 border-t border-neutral-800 text-xs text-neutral-500 flex flex-col sm:flex-row items-center justify-between gap-4">
+        {/* Bottom Legal Line */}
+        <div className="mt-12 pt-8 border-t border-[rgba(255,255,255,0.08)] text-xs text-[var(--platinum-2)] flex flex-col sm:flex-row items-center justify-between gap-4">
           <p>
             © 2026 {BUSINESS_INFO.legalName}. All rights reserved. Operating since {BUSINESS_INFO.establishedYear} in Bengaluru, India.
           </p>
