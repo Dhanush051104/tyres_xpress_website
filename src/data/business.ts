@@ -72,7 +72,7 @@ export const SHOWROOMS: Showroom[] = [
     landmark: 'Opposite Shell Fuel Station, Varthur Main Road',
     mapQuery: 'Tyres+Xpress,+26/2,+Varthur+Main+Road,+Siddapura,+Bengaluru,+Karnataka+560066,+India',
     googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tyres+Xpress,+26%2F2,+Varthur+Main+Road,+Siddapura,+Bengaluru,+Karnataka+560066,+India&query_place_id=ChIJi2rJDj4SrjsR4vSev_kKA74',
-    imageId: 'IMG-009',
+    imageId: 'showroom_1_1',
     isFlagship: true,
     services: [
       'Multi-brand car and two-wheeler tyres',
@@ -98,7 +98,7 @@ export const SHOWROOMS: Showroom[] = [
     landmark: 'Opposite Venkateshwara Hardware',
     mapQuery: 'Tyres+Xpress,+Kalkere+Main+Road,+Jayanthi+Nagar+Extension,+opposite+Venkateshwara+Hardware,+Kalkere,+Horamavu,+Bengaluru,+Karnataka+560113,+India',
     googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tyres+Xpress,+Kalkere+Main+Road,+Jayanthi+Nagar+Extension,+opposite+Venkateshwara+Hardware,+Kalkere,+Horamavu,+Bengaluru,+Karnataka+560113,+India&query_place_id=ChIJyQZr3vMRrj4RrmRnBjW_uTs',
-    imageId: 'IMG-010',
+    imageId: 'showroom_1_2',
     hasCarWash: true,
     services: [
       'Multi-brand car and two-wheeler tyres',
@@ -125,7 +125,7 @@ export const SHOWROOMS: Showroom[] = [
     landmark: '1st Gate, Near Sobha Dream Acres',
     mapQuery: 'Tyres+Xpress,+1st+Gate,+Sy+No.+68,+Balagere+Village,+Panathur+Main+Road,+Varthur+Hobli,+near+Sobha+Dream+Acres,+Bengaluru,+Karnataka+560087,+India',
     googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tyres+Xpress,+1st+Gate,+Sy+No.+68,+Balagere+Village,+Panathur+Main+Road,+Varthur+Hobli,+near+Sobha+Dream+Acres,+Bengaluru,+Karnataka+560087,+India&query_place_id=ChIJU6aARAATrjsRr0G3u2Bs0ok',
-    imageId: 'IMG-011',
+    imageId: 'showroom_1_3',
     services: [
       'Multi-brand car and two-wheeler tyres',
       'Alloy wheels',
@@ -158,7 +158,7 @@ export const SERVICES: ServiceItem[] = [
     ],
     equipment: 'Pneumatic leverless tyre changers with synthetic rim-protector clamp jaws',
     intervalRecommendation: 'Inspect every 10,000 km or replace when tread depth drops below 2.5 mm / 5 years of age',
-    imageId: 'IMG-002',
+    imageId: 'service_1_1',
     branches: ['Siddapura', 'Horamavu', 'Balagere'],
   },
   {
@@ -180,7 +180,7 @@ export const SERVICES: ServiceItem[] = [
     ],
     equipment: 'Digital wheel offset gauges and calibrated hub-centering tools',
     intervalRecommendation: 'Visual inspection during every tyre rotation or alignment',
-    imageId: 'IMG-003',
+    imageId: 'service_2_1',
     branches: ['Siddapura', 'Horamavu', 'Balagere'],
   },
   {
@@ -202,7 +202,7 @@ export const SERVICES: ServiceItem[] = [
     ],
     equipment: 'Industrial 3D digital imaging alignment rack with high-definition optical beam cameras',
     intervalRecommendation: 'Every 5,000 km or immediately after heavy pothole impact / suspension work',
-    imageId: 'IMG-004',
+    imageId: 'service_3_1',
     branches: ['Siddapura', 'Horamavu', 'Balagere'],
   },
   {
@@ -224,7 +224,7 @@ export const SERVICES: ServiceItem[] = [
     ],
     equipment: 'Microprocessor-controlled digital balancer with automatic sonar distance & width gauge',
     intervalRecommendation: 'Every 5,000 km along with wheel rotation',
-    imageId: 'IMG-005',
+    imageId: 'service_4_1',
     branches: ['Siddapura', 'Horamavu', 'Balagere'],
   },
   {
@@ -246,7 +246,7 @@ export const SERVICES: ServiceItem[] = [
     ],
     equipment: 'Multi-stage industrial membrane PSA nitrogen station & precision tyre puncture repair tools',
     intervalRecommendation: 'Check pressure monthly; get punctures inspected immediately upon air loss',
-    imageId: 'IMG-006',
+    imageId: 'service_5_1',
     branches: ['Siddapura', 'Horamavu', 'Balagere'],
   },
   {
@@ -268,7 +268,7 @@ export const SERVICES: ServiceItem[] = [
     ],
     equipment: 'Electromechanical hydraulic alloy wheel straightening machine with dial gauge',
     intervalRecommendation: 'As needed following harsh pothole impacts or when slow bead leaks occur',
-    imageId: 'IMG-007',
+    imageId: 'service_6_1',
     branches: ['Siddapura', 'Horamavu', 'Balagere'],
   },
   {
@@ -290,7 +290,7 @@ export const SERVICES: ServiceItem[] = [
     ],
     equipment: 'Accessory showcases and on-site fitment bays (product availability may vary by branch)',
     intervalRecommendation: 'Inspect valves and wipers during tyre rotations; upgrade accessories as desired',
-    imageId: 'IMG-008',
+    imageId: 'service_7_1',
     branches: ['Siddapura', 'Horamavu', 'Balagere'],
   },
   {
@@ -312,7 +312,7 @@ export const SERVICES: ServiceItem[] = [
     ],
     equipment: 'Commercial high-pressure washers, snow foam cannon, and heavy-duty industrial vacuum',
     intervalRecommendation: 'Every 2 to 3 weeks for optimal paint protection',
-    imageId: 'IMG-015',
+    imageId: 'service_8_1',
     branches: ['Horamavu'],
   },
 ];

@@ -37,30 +37,37 @@ All 3 showrooms operate **Monday through Sunday, 9:00 AM – 8:00 PM**.
 
 ---
 
-## 3. Image Manifest & Placeholder Architecture
+## 3. Image Manifest & Standardized Placeholder Architecture
 
-Per project specification, **no AI-generated imagery or unverified stock photographs** are inserted. The website implements a central image manifest (`src/data/imageManifest.ts`) and engineered numbered image placeholders:
+Per project specification, **no AI-generated imagery or unverified stock photographs** are inserted. The website implements a central image manifest (`src/data/imageManifest.ts`) with a standardized naming convention: `pagename_imagesetnumber_imagenumber`.
 
-| Image ID | Section / Component | Target Dimensions | Target Upload Path |
-| :--- | :--- | :--- | :--- |
-| **IMG-001** | Homepage Hero Showcase | 1920 × 1080 (16:9) | `public/images/hero/homepage-hero.jpg` |
-| **IMG-002** | Multi-Brand Tyre Fitting | 800 × 600 (4:3) | `public/images/services/tyre-fitting.jpg` |
-| **IMG-003** | Alloy Wheels Collection | 800 × 600 (4:3) | `public/images/services/alloy-wheels.jpg` |
-| **IMG-004** | 3D Optical Wheel Alignment | 800 × 600 (4:3) | `public/images/services/wheel-alignment.jpg` |
-| **IMG-005** | Dynamic Wheel Balancing | 800 × 600 (4:3) | `public/images/services/wheel-balancing.jpg` |
-| **IMG-006** | 99.9% Nitrogen Tyre Filling | 800 × 600 (4:3) | `public/images/services/nitrogen-filling.jpg` |
-| **IMG-007** | Hydraulic Wheel Bend Repair | 800 × 600 (4:3) | `public/images/services/wheel-bend-repair.jpg` |
-| **IMG-008** | Automotive Accessories | 800 × 600 (4:3) | `public/images/services/car-accessories.jpg` |
-| **IMG-009** | Showroom 1 — Siddapura (Whitefield) | 1200 × 800 (3:2) | `public/images/showrooms/siddapura-exterior.jpg` |
-| **IMG-010** | Showroom 2 — Horamavu / Kalkere | 1200 × 800 (3:2) | `public/images/showrooms/horamavu-exterior.jpg` |
-| **IMG-011** | Showroom 3 — Balagere (Panathur) | 1200 × 800 (3:2) | `public/images/showrooms/balagere-exterior.jpg` |
-| **IMG-012** | Tyre Guide & Catalogue Teaser | 1200 × 700 (16:9) | `public/images/catalogue/catalogue-preview.jpg` |
-| **IMG-013** | About Us Technical Team & Workshop | 1200 × 800 (3:2) | `public/images/about/team-workshop.jpg` |
-| **IMG-014** | Calibrated Optical Alignment Rack | 1000 × 650 (16:10)| `public/images/about/alignment-bay.jpg` |
-| **IMG-015** | Professional Car Wash Bay (Horamavu) | 800 × 600 (4:3) | `public/images/services/car-wash-bay.jpg` |
-| **IMG-016** | Tyre Sidewall Markings Anatomy | 1200 × 675 (16:9) | `public/images/guide/sidewall-markings.jpg` |
+| Canonical ID | Legacy ID | Section / Component | Target Dimensions | Target Upload Path |
+| :--- | :--- | :--- | :--- | :--- |
+| **`home_1_1`** | `IMG-017` | Cinematic Intro Background | 1376 × 768 (16:9) | `public/images/home/home_1_1.jpg` |
+| **`home_2_1`** | `IMG-001` | Homepage Hero Showcase | 1920 × 1080 (16:9) | `public/images/home/home_2_1.jpg` |
+| **`service_1_1`** | `IMG-002` | Multi-Brand Tyre Fitting (Slide 1) | 800 × 600 (4:3) | `public/images/services/service_1_1.jpg` |
+| **`service_1_2`** | `IMG-002-2` | Two-Wheeler Tyre Bay (Slide 2) | 800 × 600 (4:3) | `public/images/services/service_1_2.jpg` |
+| **`service_1_3`** | `IMG-002-3` | SUV & 4x4 Tyre Fitment (Slide 3) | 800 × 600 (4:3) | `public/images/services/service_1_3.jpg` |
+| **`service_1_4`** | `IMG-002-4` | Commercial Fleet Tyres (Slide 4) | 800 × 600 (4:3) | `public/images/services/service_1_4.jpg` |
+| **`service_2_1`** | `IMG-003` | Alloy Wheels Display Wall (Slide 1) | 800 × 600 (4:3) | `public/images/services/service_2_1.jpg` |
+| **`service_2_2`** | `IMG-003-2` | Custom PCD & Hub Centric (Slide 2) | 800 × 600 (4:3) | `public/images/services/service_2_2.jpg` |
+| **`service_2_3`** | `IMG-003-3` | Deep Concave SUV Alloys (Slide 3) | 800 × 600 (4:3) | `public/images/services/service_2_3.jpg` |
+| **`service_2_4`** | `IMG-003-4` | Flow-Formed & Forged (Slide 4) | 800 × 600 (4:3) | `public/images/services/service_2_4.jpg` |
+| **`service_3_1`** | `IMG-004` | 3D Optical Wheel Alignment | 800 × 600 (4:3) | `public/images/services/service_3_1.jpg` |
+| **`service_4_1`** | `IMG-005` | Dynamic Wheel Balancing | 800 × 600 (4:3) | `public/images/services/service_4_1.jpg` |
+| **`service_5_1`** | `IMG-006` | 99.9% Nitrogen Tyre Filling | 800 × 600 (4:3) | `public/images/services/service_5_1.jpg` |
+| **`service_6_1`** | `IMG-007` | Hydraulic Wheel Bend Repair | 800 × 600 (4:3) | `public/images/services/service_6_1.jpg` |
+| **`service_7_1`** | `IMG-008` | Automotive Accessories | 800 × 600 (4:3) | `public/images/services/service_7_1.jpg` |
+| **`service_8_1`** | `IMG-015` | Professional Car Wash Bay (Horamavu) | 800 × 600 (4:3) | `public/images/services/service_8_1.jpg` |
+| **`showroom_1_1`** | `IMG-009` | Showroom 1 — Siddapura (Whitefield) | 1200 × 800 (3:2) | `public/images/showrooms/showroom_1_1.jpg` |
+| **`showroom_1_2`** | `IMG-010` | Showroom 2 — Horamavu / Kalkere | 1200 × 800 (3:2) | `public/images/showrooms/showroom_1_2.jpg` |
+| **`showroom_1_3`** | `IMG-011` | Showroom 3 — Balagere (Panathur) | 1200 × 800 (3:2) | `public/images/showrooms/showroom_1_3.jpg` |
+| **`catalogue_1_1`** | `IMG-012` | Tyre Guide & Catalogue Teaser | 1200 × 700 (16:9) | `public/images/catalogue/catalogue_1_1.jpg` |
+| **`catalogue_2_1`** | `IMG-016` | Tyre Sidewall Markings Anatomy | 1200 × 675 (16:9) | `public/images/catalogue/catalogue_2_1.jpg` |
+| **`about_1_1`** | `IMG-013` | About Us Technical Team & Workshop | 1200 × 800 (3:2) | `public/images/about/about_1_1.jpg` |
+| **`about_2_1`** | `IMG-014` | Calibrated Optical Alignment Rack | 1000 × 650 (16:10)| `public/images/about/about_2_1.jpg` |
 
-When official photographs are supplied, dropping them into the configured target path will display them automatically without altering the page layout or aspect ratios.
+When official photographs are supplied, dropping them into the configured target path will display them automatically without altering the page layout or aspect ratios. The architecture includes dynamic ID resolution, so any future `pagename_imagesetnumber_imagenumber` asset works immediately.
 
 ---
 

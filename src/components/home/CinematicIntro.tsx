@@ -24,7 +24,7 @@ export function CinematicIntro() {
   const safetyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const imgMeta = getImageMeta('IMG-017');
+  const imgMeta = getImageMeta('home_1_1');
 
   // Complete intro and transition smoothly into homepage
   const completeIntro = useCallback((isSkip = false) => {
@@ -197,13 +197,13 @@ export function CinematicIntro() {
       }`}
     >
       {/* ============================================================== */}
-      {/* Cinematic Background Photograph (IMG-017)                      */}
+      {/* Cinematic Background Photograph (home_1_1 / formerly IMG-017) */}
       {/* Close-up front alloy wheel & tyre, vehicle facing right        */}
       {/* ============================================================== */}
       <div
         className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
         aria-hidden="true"
-        data-image-id="IMG-017"
+        data-image-id="home_1_1"
       >
         <div className="absolute inset-0 bg-[#070709]" />
 

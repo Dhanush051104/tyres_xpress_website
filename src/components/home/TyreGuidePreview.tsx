@@ -180,11 +180,11 @@ export function TyreGuidePreview() {
           </div>
         </div>
 
-        {/* Right Column: Numbered Placeholder IMG-012 */}
+        {/* Right Column: Numbered Placeholder catalogue_1_1 */}
         <div className="lg:col-span-5 flex flex-col items-center">
           <div className="w-full">
             <ImagePlaceholder
-              id="IMG-012"
+              id="catalogue_1_1"
               aspectRatio="16/9"
               customLabel="Tyre Guide & Catalogue Interface Preview"
               showDetails={true}

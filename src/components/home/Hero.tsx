@@ -228,7 +228,7 @@ export function Hero() {
 
               <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-[var(--tx-border)] bg-neutral-900 shadow-sm group">
                 <Image
-                  src="/images/hero/homepage-hero.jpg"
+                  src="/images/home/home_2_1.jpg"
                   alt="TyresXpress Flagship Workshop & Fitting Bay in Bengaluru"
                   fill
                   priority
