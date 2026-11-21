@@ -7,6 +7,7 @@ import { motion, AnimatePresence, LayoutGroup, useReducedMotion } from 'motion/r
 import { TyresXpressLogo } from '@/components/common/TyresXpressLogo';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
 import { Phone, MapPin, Menu, X, Mail, ChevronRight } from 'lucide-react';
+import { InstagramIcon } from '@/components/common/InstagramIcon';
 import { BUSINESS_INFO, SHOWROOMS } from '@/data/business';
 import { trackPhoneClick } from '@/lib/analytics';
 
@@ -56,11 +57,10 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full select-none">
       <nav
-        className={`w-full transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] border-b ${
-          scrolled
-            ? 'h-14 sm:h-15 bg-[var(--tx-bg)]/90 backdrop-blur-md border-[var(--tx-border)] shadow-[var(--tx-shadow)]'
-            : 'h-20 sm:h-22 bg-[var(--tx-bg)] border-[var(--tx-border)] shadow-none'
-        }`}
+        className={`w-full transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] border-b ${scrolled
+          ? 'h-14 sm:h-15 bg-[var(--tx-bg)]/90 backdrop-blur-md border-[var(--tx-border)] shadow-[var(--tx-shadow)]'
+          : 'h-20 sm:h-22 bg-[var(--tx-bg)] border-[var(--tx-border)] shadow-none'
+          }`}
       >
         <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-2 xl:gap-4">
           {/* Brand Logo: Scaled smoothly without remounting */}
@@ -77,9 +77,8 @@ export function Header() {
           {/* Desktop Navigation Links: Dock with Fast Liquid Active Indicator */}
           <LayoutGroup id="desktop-nav-tabs">
             <div
-              className={`hidden lg:flex items-center rounded-full bg-[var(--tx-surface-secondary)] border border-[var(--tx-border)] backdrop-blur-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.03)] flex-shrink-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                scrolled ? 'gap-0.5 p-0.5' : 'gap-1 p-1'
-              }`}
+              className={`hidden lg:flex items-center rounded-full bg-[var(--tx-surface-secondary)] border border-[var(--tx-border)] backdrop-blur-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.03)] flex-shrink-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled ? 'gap-0.5 p-0.5' : 'gap-1 p-1'
+                }`}
             >
               {NAV_LINKS.map((link) => {
                 const isActive =
@@ -92,13 +91,11 @@ export function Header() {
                     key={link.name}
                     href={link.href}
                     prefetch={true}
-                    className={`relative rounded-full text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 cursor-pointer ${
-                      scrolled ? 'px-3 py-1' : 'px-3.5 py-1.5'
-                    } ${
-                      isActive
+                    className={`relative rounded-full text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 cursor-pointer ${scrolled ? 'px-3 py-1' : 'px-3.5 py-1.5'
+                      } ${isActive
                         ? 'text-red-600 dark:text-neutral-950 font-bold'
                         : 'text-[var(--tx-text-secondary)] hover:text-[var(--tx-text-primary)]'
-                    }`}
+                      }`}
                   >
                     {/* Liquid Glass Active Pill Indicator - locked to pathname dependency to prevent scroll glitches */}
                     {isActive && (
@@ -110,11 +107,11 @@ export function Header() {
                           shouldReduceMotion
                             ? { duration: 0.05 }
                             : {
-                                type: 'spring',
-                                stiffness: 520,
-                                damping: 38,
-                                mass: 0.8,
-                              }
+                              type: 'spring',
+                              stiffness: 520,
+                              damping: 38,
+                              mass: 0.8,
+                            }
                         }
                       />
                     )}
@@ -153,6 +150,18 @@ export function Header() {
                 <Phone className="w-3.5 h-3.5 text-red-600 flex-shrink-0" />
                 <span className="whitespace-nowrap">{BUSINESS_INFO.displayHotline}</span>
               </a>
+
+              {/* Instagram Logo: clickable, clearly visible, no handle text */}
+              <a
+                href={BUSINESS_INFO.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Follow TyresXpress on Instagram"
+                aria-label="Follow TyresXpress on Instagram"
+                className="inline-flex items-center justify-center text-[var(--tx-text-secondary)] hover:text-red-600 transition-colors p-1.5 rounded-lg hover:bg-[var(--tx-surface-secondary)] flex-shrink-0 group/insta"
+              >
+                <InstagramIcon className="w-5 h-5 text-red-600 flex-shrink-0 transition-transform duration-200 group-hover/insta:scale-110" />
+              </a>
             </div>
 
             {/* Mobile / Tablet Quick Call Button */}
@@ -160,6 +169,7 @@ export function Header() {
               href={`tel:${BUSINESS_INFO.centralHotline}`}
               onClick={() => trackPhoneClick({ showroom: 'central_hotline', location: 'header_mobile_quick_call' })}
               aria-label={`Call Helpdesk ${BUSINESS_INFO.displayHotline}`}
+              title={`Call Helpdesk ${BUSINESS_INFO.displayHotline}`}
               className={`xl:hidden inline-flex items-center justify-center rounded-full border border-[var(--tx-border)] bg-[var(--tx-surface-secondary)] hover:bg-[var(--tx-card)] text-[var(--tx-text-primary)] hover:text-red-600 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer flex-shrink-0 ${
                 scrolled ? 'w-8 h-8 sm:w-9 sm:h-9' : 'w-9 h-9 sm:w-10 sm:h-10'
               }`}
@@ -179,9 +189,8 @@ export function Header() {
               <Link
                 href="/showrooms"
                 prefetch={true}
-                className={`hidden sm:inline-flex items-center gap-1.5 rounded-xl font-bold tracking-tight text-white bg-red-600 hover:bg-red-700 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500 cursor-pointer whitespace-nowrap flex-shrink-0 ${
-                  scrolled ? 'px-3 py-1.5 text-xs' : 'px-3.5 py-2 text-xs sm:text-sm'
-                }`}
+                className={`hidden sm:inline-flex items-center gap-1.5 rounded-xl font-bold tracking-tight text-white bg-red-600 hover:bg-red-700 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500 cursor-pointer whitespace-nowrap flex-shrink-0 ${scrolled ? 'px-3 py-1.5 text-xs' : 'px-3.5 py-2 text-xs sm:text-sm'
+                  }`}
               >
                 <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
                 <span className="whitespace-nowrap">Find Showroom</span>
@@ -226,11 +235,10 @@ export function Header() {
                     href={link.href}
                     prefetch={true}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
-                      isActive
-                        ? 'text-red-600 dark:text-white bg-red-50 dark:bg-white/[0.08] font-bold border border-red-100 dark:border-white/10'
-                        : 'text-[var(--tx-text-primary)] hover:bg-[var(--tx-surface-secondary)]'
-                    }`}
+                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-colors ${isActive
+                      ? 'text-red-600 dark:text-white bg-red-50 dark:bg-white/[0.08] font-bold border border-red-100 dark:border-white/10'
+                      : 'text-[var(--tx-text-primary)] hover:bg-[var(--tx-surface-secondary)]'
+                      }`}
                   >
                     <span>{link.name}</span>
                     <ChevronRight className="w-4 h-4 opacity-50" />
@@ -262,6 +270,20 @@ export function Header() {
                     Support Email
                   </span>
                   <span className="font-mono text-[11px] truncate max-w-[180px]">{BUSINESS_INFO.email}</span>
+                </a>
+                <a
+                  href={BUSINESS_INFO.instagram.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between text-xs text-[var(--tx-text-secondary)] hover:text-[var(--tx-text-primary)] pt-2 border-t border-[var(--tx-border)] group/m-insta"
+                  title="Follow TyresXpress on Instagram"
+                  aria-label="Follow TyresXpress on Instagram"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <InstagramIcon className="w-5 h-5 text-red-600 flex-shrink-0" />
+                    <span className="font-medium text-[var(--tx-text-primary)]">Follow on Instagram</span>
+                  </span>
+                  <span className="text-[11px] text-red-600 font-semibold group-hover/m-insta:underline">Open Profile ↗</span>
                 </a>
               </div>
 

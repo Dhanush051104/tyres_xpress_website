@@ -55,6 +55,10 @@ export const BUSINESS_INFO = {
   country: 'India',
   showroomsCount: 3,
   hoursCommon: '9:00 AM – 8:00 PM (Monday to Sunday)',
+  instagram: {
+    handle: '__tyres.xpress__',
+    url: 'https://www.instagram.com/__tyres.xpress__/',
+  },
 };
 
 export const SHOWROOMS: Showroom[] = [
