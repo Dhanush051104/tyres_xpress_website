@@ -273,6 +273,33 @@ export const SERVICE_GALLERIES: Record<string, ServiceGallery> = {
     ],
   },
 
+  // 4. service_4: Dynamic Computerized Wheel Balancing Carousel (2 slides)
+  balancing: {
+    serviceId: 'balancing',
+    serviceSlug: 'computerized-wheel-balancing',
+    serviceTitle: 'Computerized Dynamic Wheel Balancing',
+    aspectRatio: '4/3',
+    slides: [
+      {
+        id: 'service_4_1',
+        title: 'Dynamic Computerized Wheel Balancing Rig',
+        caption: 'Wheel mounted on high-precision digital wheel balancing machine with laser weight positioning indicator',
+        targetPath: '/images/services/service_4_1.jpg',
+        alt: 'Dynamic Computerized Wheel Balancing Machine with Laser Weight Guide at TyresXpress',
+        placeholderId: 'service_4_1',
+        fit: 'contain',
+      },
+      {
+        id: 'service_4_2',
+        title: 'Precision Wheel Clamping & Weight Calibration',
+        caption: 'High-speed spin diagnostics and counterweight application for vibration-free highway performance',
+        targetPath: '/images/services/service_4_2.jpg',
+        alt: 'Technician Calibrating Dynamic Wheel Balancer at TyresXpress Workshop',
+        placeholderId: 'service_4_2',
+        fit: 'contain',
+      },
+    ],
+  },
 
   // 5. about-us: About Us Carousel
   'about-us': ABOUT_GALLERY,

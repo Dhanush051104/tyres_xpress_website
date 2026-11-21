@@ -206,9 +206,18 @@ export function ServiceImageCarousel({
     }),
   };
 
+  const aspectClass =
+    gallery.aspectRatio === '16/9'
+      ? 'aspect-[16/9]'
+      : gallery.aspectRatio === '3/2'
+      ? 'aspect-[3/2]'
+      : gallery.aspectRatio === '16/10'
+      ? 'aspect-[16/10]'
+      : 'aspect-[4/3]';
+
   return (
     <div
-      className={`relative w-full aspect-[4/3] rounded-xl overflow-hidden border border-[var(--tx-border)] bg-neutral-900 shadow-sm group/carousel select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B00] ${className}`}
+      className={`relative w-full ${aspectClass} rounded-xl overflow-hidden border border-[var(--tx-border)] bg-neutral-900 shadow-sm group/carousel select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B00] ${className}`}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
       onPointerDown={() => {
@@ -230,36 +239,53 @@ export function ServiceImageCarousel({
       {/* Slides Container */}
       <div className="relative w-full h-full overflow-hidden">
         <AnimatePresence initial={false} custom={direction} mode="popLayout">
-          <motion.div
-            key={currentSlide.id}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            className="absolute inset-0 w-full h-full"
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`${currentIndex + 1} of ${slideCount}: ${currentSlide.title}`}
-          >
-            {slideImageSrc ? (
-              <Image
-                src={slideImageSrc}
-                alt={currentSlide.alt}
-                fill
-                priority={priority && currentIndex === 0}
-                sizes="(max-width: 1024px) 100vw, 440px"
-                className="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover/carousel:scale-102"
-              />
-            ) : (
-              <ImagePlaceholder
-                id={currentSlide.placeholderId}
-                aspectRatio="4/3"
-                customLabel={currentSlide.title}
-                showDetails={true}
-              />
-            )}
-          </motion.div>
+          {(() => {
+            const isContainedSlide =
+              currentSlide.fit === 'contain' ||
+              currentSlide.id === 'service_1_4' ||
+              currentSlide.id === 'service_1_6' ||
+              currentSlide.id === 'service_4_1' ||
+              currentSlide.id === 'service_4_2';
+
+            return (
+              <motion.div
+                key={currentSlide.id}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className={`absolute inset-0 w-full h-full ${
+                  isContainedSlide ? 'bg-neutral-950 flex items-center justify-center p-2 sm:p-3' : ''
+                }`}
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${currentIndex + 1} of ${slideCount}: ${currentSlide.title}`}
+              >
+                {slideImageSrc ? (
+                  <Image
+                    src={slideImageSrc}
+                    alt={currentSlide.alt}
+                    fill
+                    priority={priority && currentIndex === 0}
+                    sizes="(max-width: 1024px) 100vw, 440px"
+                    className={`w-full h-full transition-transform duration-500 ease-out ${
+                      isContainedSlide
+                        ? 'object-contain object-center'
+                        : 'object-cover object-center group-hover/carousel:scale-102'
+                    }`}
+                  />
+                ) : (
+                  <ImagePlaceholder
+                    id={currentSlide.placeholderId}
+                    aspectRatio={gallery.aspectRatio || '4/3'}
+                    customLabel={currentSlide.title}
+                    showDetails={true}
+                  />
+                )}
+              </motion.div>
+            );
+          })()}
         </AnimatePresence>
       </div>
 
