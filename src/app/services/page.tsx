@@ -51,7 +51,11 @@ function DetailedServiceBlock({
   const gallery = getServiceGallery(service.id);
   const meta = getImageMeta(service.imageId);
   const imageSrc = meta?.readyForUpload ? meta.targetPath : null;
-  const isContainedImage = service.imageId === 'IMG-005' || service.imageId === 'IMG-006';
+  const isContainedImage =
+    service.imageId === 'service_4_1' ||
+    service.imageId === 'service_5_1' ||
+    service.imageId === 'IMG-005' ||
+    service.imageId === 'IMG-006';
 
   const handleMouseEnter = () => {
     if (isHoverPointerDevice()) {
@@ -140,13 +144,10 @@ function DetailedServiceBlock({
               />
             )}
 
-            <div className="mt-3 flex items-center justify-between text-xs text-[var(--tx-text-muted)]">
+            <div className="mt-3 flex items-center text-xs text-[var(--tx-text-muted)]">
               <span className="font-medium flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5 text-red-600" />
                 {service.branches.join(', ')}
-              </span>
-              <span className="font-mono text-[11px] bg-[var(--tx-surface-secondary)] px-2 py-0.5 rounded border border-[var(--tx-border)] tx-surface-secondary">
-                {service.imageId}
               </span>
             </div>
           </div>

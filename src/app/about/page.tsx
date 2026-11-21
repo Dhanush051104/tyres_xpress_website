@@ -2,14 +2,20 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, useReducedMotion } from 'motion/react';
 import { ImagePlaceholder } from '@/components/common/ImagePlaceholder';
+import { ServiceImageCarousel } from '@/components/services/ServiceImageCarousel';
+import { ABOUT_GALLERY } from '@/data/serviceGalleries';
+import { getImageMeta } from '@/data/imageManifest';
 import { BUSINESS_INFO, SHOWROOMS } from '@/data/business';
 import { trackPhoneClick, trackGetDirections } from '@/lib/analytics';
 import { ShieldCheck, Award, MapPin, Wrench, ArrowRight, Phone } from 'lucide-react';
 
 export default function AboutPage() {
   const shouldReduceMotion = useReducedMotion();
+  const metaAbout2 = getImageMeta('about_2_1');
+  const about2ImageSrc = metaAbout2?.readyForUpload ? metaAbout2.targetPath : null;
 
   const cardHover = shouldReduceMotion
     ? undefined
@@ -117,14 +123,9 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Placeholder IMG-013 */}
+            {/* About Us Gallery Carousel (about_1_1 & about_1_2) */}
             <div className="lg:col-span-5">
-              <ImagePlaceholder
-                id="IMG-013"
-                aspectRatio="3/2"
-                customLabel="TyresXpress Technical Team & Workshop Bays"
-                showDetails={true}
-              />
+              <ServiceImageCarousel gallery={ABOUT_GALLERY} priority />
             </div>
           </div>
         </div>
@@ -301,14 +302,26 @@ export default function AboutPage() {
       <section className="py-16 sm:py-20 bg-[var(--tx-bg)] border-t border-b border-[var(--tx-border)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Placeholder IMG-014 */}
+            {/* Calibrated Optical 3D Wheel Alignment Sensor System (about_2_1) */}
             <div className="lg:col-span-5 order-2 lg:order-1">
-              <ImagePlaceholder
-                id="IMG-014"
-                aspectRatio="16/10"
-                customLabel="Calibrated Optical 3D Wheel Alignment Sensor System"
-                showDetails={true}
-              />
+              {about2ImageSrc ? (
+                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[var(--tx-border)] bg-neutral-900 shadow-sm group">
+                  <Image
+                    src={about2ImageSrc}
+                    alt={metaAbout2.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 500px"
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                  />
+                </div>
+              ) : (
+                <ImagePlaceholder
+                  id="about_2_1"
+                  aspectRatio="16/10"
+                  customLabel="Calibrated Optical 3D Wheel Alignment Sensor System"
+                  showDetails={true}
+                />
+              )}
             </div>
 
             {/* Standards Text */}

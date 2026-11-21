@@ -76,7 +76,7 @@ export const metadata: Metadata = {
       '3 Premier Showrooms across Bengaluru: Siddapura (Whitefield), Horamavu, and Balagere (Panathur). Authorized dealer for 16+ tyre brands, 3D wheel alignment, and certified rim repair.',
     images: [
       {
-        url: '/images/hero/homepage-hero.jpg',
+        url: '/images/home/home_2_1.jpg',
         width: 1200,
         height: 675,
         alt: 'TyresXpress Flagship Workshop & Fitting Bay in Bengaluru',
@@ -88,7 +88,7 @@ export const metadata: Metadata = {
     title: `${BUSINESS_INFO.name} — Multi-Brand Tyres & Automotive Services in Bengaluru`,
     description:
       '3 Premier Showrooms across Bengaluru: Siddapura (Whitefield), Horamavu, and Balagere (Panathur). 16+ Authorized tyre brands & 3D wheel alignment.',
-    images: ['/images/hero/homepage-hero.jpg'],
+    images: ['/images/home/home_2_1.jpg'],
   },
 };
 

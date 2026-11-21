@@ -21,13 +21,13 @@ export default function HomePage() {
 
   return (
     <div className="w-full">
-      {/* 0. Cinematic Full-Screen Intro (Preserved exactly as is, IMG-017) */}
+      {/* 0. Cinematic Full-Screen Intro (Preserved exactly as is, home_1_1) */}
       <CinematicIntro />
 
-      {/* 1. Hero Section & Statistics Section (Includes IMG-001) */}
+      {/* 1. Hero Section & Statistics Section (Includes home_2_1) */}
       <Hero />
 
-      {/* 2. Three Showroom Locations Cards (Includes IMG-009, IMG-010, IMG-011) */}
+      {/* 2. Three Showroom Locations Cards (Includes showroom_1_1, showroom_1_2, showroom_1_3) */}
       <motion.section
         {...sectionReveal}
         className="py-14 sm:py-20 bg-[var(--tx-surface-secondary)] border-t border-b border-[var(--tx-border)] tx-section-alt"

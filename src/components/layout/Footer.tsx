@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { TyresXpressLogo } from '@/components/common/TyresXpressLogo';
 import { Phone, Mail, Clock, ShieldCheck, ArrowUpRight } from 'lucide-react';
+import { InstagramIcon } from '@/components/common/InstagramIcon';
 import { BUSINESS_INFO, SHOWROOMS, BRANDS } from '@/data/business';
 import { trackPhoneClick } from '@/lib/analytics';
 
@@ -73,6 +74,23 @@ export function Footer() {
               <div className="flex items-center gap-2 text-[var(--platinum-1)]">
                 <Clock className="w-4 h-4 text-red-500 flex-shrink-0" />
                 <span>{BUSINESS_INFO.hoursCommon}</span>
+              </div>
+              <div className="flex items-center text-[var(--platinum-1)]">
+                <a
+                  href={BUSINESS_INFO.instagram.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 hover:text-white transition-colors group/insta"
+                  title={`Follow TyresXpress on Instagram: ${BUSINESS_INFO.instagram.handle}`}
+                  aria-label={`Follow TyresXpress on Instagram: ${BUSINESS_INFO.instagram.handle}`}
+                >
+                  <div className="w-4 h-4 flex items-center justify-center flex-shrink-0">
+                    <InstagramIcon className="w-4.5 h-4.5 text-red-500 flex-shrink-0 transition-transform duration-200 group-hover/insta:scale-110" />
+                  </div>
+                  <span className="font-semibold text-white group-hover/insta:text-red-400 transition-colors">
+                    {BUSINESS_INFO.instagram.handle}
+                  </span>
+                </a>
               </div>
             </div>
 

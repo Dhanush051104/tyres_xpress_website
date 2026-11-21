@@ -115,7 +115,6 @@ export default function ShowroomsPage() {
 
                     <div className="mt-4 pt-4 border-t border-[var(--tx-border)] text-xs text-[var(--tx-text-muted)] flex items-center justify-between">
                       <span>Pin Code: {showroom.pinCode}</span>
-                      <span className="font-mono">{showroom.imageId}</span>
                     </div>
                   </div>
 

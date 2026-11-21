@@ -58,21 +58,21 @@ export function ImagePlaceholder({
       <div className="absolute bottom-2 left-2 w-2.5 h-2.5 border-b border-l border-[var(--tx-border-strong)] pointer-events-none" />
       <div className="absolute bottom-2 right-2 w-2.5 h-2.5 border-b border-r border-[var(--tx-border-strong)] pointer-events-none" />
 
-      {/* Top Bar with Clear ID Tag */}
-      <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5">
-        <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono font-bold tracking-wider bg-[var(--tx-card)] text-red-600 dark:text-red-500 border border-[var(--tx-border)] shadow-sm">
-          <span className="w-1.5 h-1.5 rounded-full bg-red-600 dark:bg-red-500 mr-1.5 animate-pulse" />
-          {id}
-        </span>
-        <span className="hidden sm:inline-flex px-2 py-0.5 rounded text-[10px] font-semibold tracking-wide uppercase bg-[var(--tx-card)] text-[var(--tx-text-secondary)] border border-[var(--tx-border)] shadow-xs">
-          {meta.section}
-        </span>
-      </div>
+      {/* Top Bar (Clean section tag when details enabled) */}
+      {showDetails && meta.section && (
+        <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5">
+          <span className="px-2 py-0.5 rounded text-[10px] font-semibold tracking-wide uppercase bg-[var(--tx-card)] text-[var(--tx-text-secondary)] border border-[var(--tx-border)] shadow-xs">
+            {meta.section}
+          </span>
+        </div>
+      )}
 
       {/* Target dimensions tag in top-right */}
-      <div className="absolute top-3 right-3 z-10 text-[11px] font-mono font-semibold text-[var(--tx-text-secondary)] bg-[var(--tx-card)] px-2 py-0.5 rounded border border-[var(--tx-border)] shadow-xs">
-        {meta.width} × {meta.height} ({activeAspect})
-      </div>
+      {showDetails && (
+        <div className="absolute top-3 right-3 z-10 text-[11px] font-mono font-semibold text-[var(--tx-text-secondary)] bg-[var(--tx-card)] px-2 py-0.5 rounded border border-[var(--tx-border)] shadow-xs">
+          {meta.width} × {meta.height} ({activeAspect})
+        </div>
+      )}
 
       {/* Center Content: Intentionally clean, automotive placeholder indicator */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center select-none">
@@ -103,11 +103,6 @@ export function ImagePlaceholder({
             {meta.description}
           </p>
         )}
-
-        {/* Manifest link hint */}
-        <div className="mt-2 text-[10px] font-mono text-[var(--tx-text-muted)] tracking-tight">
-          Target: <code className="px-1.5 py-0.5 rounded bg-[var(--tx-card)] border border-[var(--tx-border)] text-[var(--tx-text-primary)] font-mono">{meta.targetPath}</code>
-        </div>
       </div>
     </div>
   );
